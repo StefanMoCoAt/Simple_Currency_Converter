@@ -1,0 +1,66 @@
+<h2>ForEach method</h2>
+<html>
+ <head></head>
+ <body>
+  <p>You already know how to initialize an array and reference its elements one by one. To become more confident with arrays, you also need to know how to conveniently perform multiple identical operations with the elements. That's what the <code class="language-javascript">forEach</code> method does: it allows you to perform the same action for the array elements without having to access each of them separately.</p> 
+  <h5 id="what-is-foreach">What is forEach</h5> 
+  <p>Let's say you have an array of names: <code class="language-javascript">arrayNames = ["Mike", "Alex", "Asya"]</code>. You want to show each element through the <code class="language-javascript">console.log</code>. As you remember, you can do this using the index:</p> 
+  <pre><code class="language-javascript">console.log(arrayNames[0]);
+console.log(arrayNames[1]);</code></pre> 
+  <p>Now let's imagine that you have an array of a hundred elements, or you don't even know how many elements there are. How do you print all the elements in this case?</p> 
+  <p>The best way to do this is the <strong>forEach</strong> method. It reads each element of the array sequentially and performs the same action with it. We can use it to display each element of the array via the <code class="language-javascript">console.log</code>:</p> 
+  <pre><code class="language-javascript">arrayNames.forEach(console.log);</code></pre> 
+  <p>As a result, <code class="language-javascript">console.log</code> first shows the name "Mike", then "Alex", and finally, "Asya". </p> 
+  <p>The main feature of <code class="language-javascript">forEach</code> is the sequential processing of each array element. It reads the elements one by one and can't go any further without performing the necessary actions with the previous one.</p> 
+  <p>The method skips the elements that were deleted or not initialized. For example, if we change <code class="language-javascript">arrayNames</code> to<code class="language-javascript">arrayNames = ["Mike",, "Asya"],</code> we will only see two strings, "Mike" and "Asya".</p> 
+  <h5 id="syntax">Syntax</h5> 
+  <p>In the previous example, we passed the <code class="language-javascript">console.log</code> function to the <code class="language-javascript">forEach</code> method, but you can also replace it with a custom function. The <code class="language-javascript">forEach</code> method has two arguments:</p> 
+  <p>1. <em>callback</em> — a function to be executed for each element (for example, <code class="language-javascript">console.log</code> like in the previous case). Callback has three parameters:</p> 
+  <ul> 
+   <li><em>currentValue:</em> the element we are currently processing;</li> 
+   <li><em>index</em>: the index of the <em>currentValue</em> element;</li> 
+   <li><em>array</em>: the array for which we called <code class="language-javascript">forEach</code>.</li> 
+  </ul> 
+  <p>2. <em>thisArg</em> — a value that we can use as <em>this</em> in the callback function.</p> 
+  <p>Here is an example:</p> 
+  <pre><code class="language-javascript">const arrayFruit = ["pineapples", "oranges", "apples"];
+arrayFruit.forEach(function(value) {
+  console.log("Today I ate" + value);
+});</code></pre> 
+  <p>The result will be:</p> 
+  <pre><code class="language-javascript">"Today I ate pineapples"
+"Today I ate oranges"
+"Today I ate apples"</code></pre> 
+  <p>We used the first argument (<em>currentValue</em>) inside the <em>callback</em> to display the value of the current element. As a result, we have three different phrases, the last words of which correspond to the elements of the array Fruit.</p> 
+  <h5 id="examples">Examples</h5> 
+  <p>You can rewrite the previous code using a named callback function:</p> 
+  <pre><code class="language-javascript">function showText(value) {
+  console.log("Today I eat " + value);
+}
+arrayFruit.forEach(showText);</code></pre> 
+  <p>The result will be the same.</p> 
+  <p>We can also use other callback arguments:</p> 
+  <pre><code class="language-javascript">function showItem(item, index, array) {
+  console.log("My value is " + item + ". I’m the " + index + " element of array " + array);
+}
+arrayFruit.forEach(showItem);</code></pre> 
+  <p>The result will be:</p> 
+  <pre><code class="language-javascript">"My value is pineapples. I'm the 0 element of array pineapples,oranges,apples"
+"My value is oranges. I'm the 1 element of array pineapples,oranges,apples"
+"My value is apples. I'm the 2 element of array pineapples,oranges,apples"</code></pre> 
+  <p>This way, you can use not only the current element inside the callback function, but also its index and the array itself.</p> 
+  <p>If you want to specify <em>custom this</em> in the <em>callback</em> function, you must use the second <code class="language-javascript">forEach</code> argument:</p> 
+  <pre><code class="language-javascript">const customThis = {
+  value: 10
+}
+
+function showThisValue() {
+  console.log(this.value);
+}
+
+arrayFruit.forEach(showThisValue, customThis);</code></pre> 
+  <p>The result will be 10.</p> 
+  <h5 id="conclusion">Conclusion</h5> 
+  <p>In this topic, we have considered a way to iterate over an array using the <code class="language-javascript">forEach</code> method. It has a callback function that sequentially processes each array value and allows you to work with the value, the index, and the array itself inside the callback function. We also considered how to set a custom <code class="language-javascript">this</code> inside the callback function using the second <code class="language-javascript">forEach</code> argument. Now it's time for practice!</p>
+ </body>
+</html>

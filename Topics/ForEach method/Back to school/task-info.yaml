@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: students.forEach(   console.log(student.name); );
+- text: students.foreach {   console.log(student.name); };
+- text: students.forEach {   console.log(student.name); };
+- text: students.forEach(function(student) {   console.log(student.name); });
+- text: students.foreach(function(student) {   console.log(student.name); });
+- text: students.foreach(   console.log(student.name); );
+files:
+- name: main.js
+  visible: true
+  text: |+
+    // You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10135#comment
+status: Solved
+record: -1

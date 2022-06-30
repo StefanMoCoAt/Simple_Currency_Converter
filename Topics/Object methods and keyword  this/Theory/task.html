@@ -1,0 +1,68 @@
+<h2>Object methods and keyword "this"</h2>
+<html>
+ <head></head>
+ <body>
+  <p>When writing scripts, we usually need to create objects to present something from the real world: users, products, maps, and more. In real life, it is possible to consider the products in detail or put something in a shopping cart; it's also an option in programming. Such actions in JavaScript are available thanks to <strong>object</strong> <strong>methods</strong>, meaning the functions you can use as object properties.</p> 
+  <h5 id="object-method-creation" style="text-align: center;">Object method creation</h5> 
+  <p>Let's try to understand how object methods are created. To do this, consider the following example:</p> 
+  <pre><code class="language-javascript">let product = {
+  name: "Microwave",
+  description: "With oven mode",
+  price: 398
+};
+
+product.giveDiscount = function() {
+  console.log("You have a 10% discount!");
+};
+
+product.giveDiscount(); // You have a 10% discount!</code></pre> 
+  <p>In this code, we have allowed the object to report a discount on the product by writing the method <code class="language-javascript">giveDiscount</code>.</p> 
+  <h5 id="shortened-recording" style="text-align: center;">Shortened recording</h5> 
+  <p>There's a shorter way of setting functions as properties. For example:</p> 
+  <pre><code class="language-javascript">let person = {
+  greetings: function() {
+    console.log("Hello");
+  }
+};</code></pre> 
+  <p>We can also skip the keyword <code class="language-javascript">function</code>:</p> 
+  <pre><code class="language-javascript">let person = {
+  greetings() {
+    console.log("Hello");
+  }
+};</code></pre> 
+  <p>Shortened syntax not only saves you time but also makes the code more readable.</p> 
+  <h5 id="this-keyword" style="text-align: center;"><em>"this"</em> keyword</h5> 
+  <p>In natural language, we can point to a specific person, animal, or object using pronouns. In JavaScript you may just as well refer to a specific object using the keyword <code class="language-javascript">this</code>:</p> 
+  <pre><code class="language-javascript">let user = {
+  firstName: "Elliot",
+  lastName: "Alderson",
+  fullName() {
+    return this.firstName + " " + this.lastName;
+  }
+}; 
+
+console.log(user.fullName()); // Elliot Alderson</code></pre> 
+  <p>In the above example, with the help of <code class="language-javascript">this</code>, the <code class="language-javascript">fullName</code> function has accessed the <code class="language-javascript">firstName</code> and <code class="language-javascript">lastName</code> information stored in the <code class="language-javascript">user</code> object, because it is declared inside it.</p> 
+  <p></p>
+  <div class="alert alert-primary">
+   Applying 
+   <code class="language-javascript">this</code> to nested objects can create some confusion. In such situations, you should keep it in mind that the keyword 
+   <code class="language-javascript">this</code> refers to the object in whose method it is used.
+  </div>
+  <p></p> 
+  <h5 id="this-and-arrow-functions" style="text-align: center;"><em>"this"</em> and arrow functions</h5> 
+  <p>Arrow functions <em>cannot</em> bind <code class="language-javascript">this</code>. In other words, the arrow functions do not have their own <code class="language-javascript">this</code>.</p> 
+  <p>If we use <code class="language-javascript">this</code> inside an arrow function, its value is taken from an external function declared the usual way:</p> 
+  <pre><code class="language-javascript">let movie = {
+  name: "The Thirteenth Floor",
+  age: 1999,
+  getInfo() {
+    let arrow = () =&gt; console.log("The movie " + this.name + " was shot in " + this.age);
+    arrow();
+  }
+}; 
+
+movie.getInfo(); // The movie The Thirteenth Floor was shot in 1999</code></pre> 
+  <p>In fact, the specifics of using <code class="language-javascript">this</code> in JavaScript are not limited to the examples described above. Here we've covered only the basics of working with this keyword, so there's a lot more to learn.</p>
+ </body>
+</html>

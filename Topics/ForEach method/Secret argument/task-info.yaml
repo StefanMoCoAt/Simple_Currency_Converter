@@ -1,0 +1,17 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: the second function that must be performed for each element
+- text: the index of the element that you want to start the iteration from
+- text: custom this in the callback function
+- text: the array to iterate over
+files:
+- name: main.js
+  visible: true
+  text: |+
+    // You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10136#comment
+status: Solved
+record: -1

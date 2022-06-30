@@ -1,0 +1,18 @@
+<h2>Nested objects</h2>
+<html>
+ <head></head>
+ <body>
+  <p>What object does the keyword <code class="language-javascript">this</code> refer to in the example below?</p> 
+  <pre><code class="language-javascript">let country = {
+  name: "Germany",
+  language: "german",
+  capital: {
+    name: "Berlin",
+    population: 3644826,
+    getPopulation() {
+      console.log(this.population);
+    }
+  }
+};</code></pre>
+ </body>
+</html>

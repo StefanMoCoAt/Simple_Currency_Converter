@@ -16,10 +16,9 @@ const showCurrency = (currencies) => {
         } else {
             table += `\n1 USD equals  ${currencies[i].rate} ${currencies[i].currency}`;
         }
-
     }
     return table;
-}
+};
 
 console.log(greeting);
 console.log(showCurrency(currencies));
@@ -27,13 +26,13 @@ console.log(showCurrency(currencies));
 //Second Chapter
 const input = require('sync-input');
 
-//Message for user what the Programm can do
 let msgCanDo = `I can convert USD to these currencies: JPY, EUR, RUB, USD, GBP`;
 
 console.log(msgCanDo);
 
 let errorMsgCurrency = `Unknown currency`;
-let errorMsgAmount = `The amount cannot be less than 1`;
+let errorMsgAmountLess = `The amount cannot be less than 1`;
+let errorMsgAmountNumb = `The amount has to be a number`;
 let actualRate = 0;
 let actualCurrency = false;
 let actualAmount = 0;
@@ -42,47 +41,53 @@ let result = false;
 let currencyInput = input(`Type the currency you wish to convert: USD
 To: `);
 
-//Test
-console.log(currencyInput)
+let controllCurrencyInput = () => {
+    let temp = currencyInput.toUpperCase().trim();
 
-const controllCurrencyInput = () => {
-    currencies.forEach(currency => {
-        if (currency.currency === currencyInput.toUpperCase().trim()) {
-            actualRate = currency.rate;
-            actualCurrency = currency.currency;
+    let found = () => {
+        for (const item of currencies) {
+            if (item.currency === temp) {
+                actualCurrency = item.currency;
+                actualRate = item.rate;
+                found = true;
+                controllCurrencyInput = true;
+                break;
+            } else {
+                found = false;
+                controllCurrencyInput = false;
+            }
         }
-        if (!actualCurrency){
-            result = errorMsgCurrency;
-        }
-    });
+    }
+
+    found();
+
+    if (!found) {
+        console.log(errorMsgCurrency);
+    }
 }
 
 controllCurrencyInput();
 
-//Test
-console.log(actualCurrency)
+if (controllCurrencyInput) {
+    let amountInput = Number(input(`Amount: `));
 
-let amountInput = Number(input(`Amount: `));
-
-const controllAmountInput = () => {
-    if (amountInput >= 1) {
-        actualAmount = amountInput;
-    } else {
-        result = errorMsgAmount;
+    const controllAmountInput = () => {
+        if (amountInput >= 1) {
+            actualAmount = amountInput;
+        } else if (isNaN(amountInput)) {
+            result = errorMsgAmountNumb;
+        } else {
+            result = errorMsgAmountLess;
+        }
     }
+
+    controllAmountInput();
+
+    if (!result) {
+        let sum = actualAmount * actualRate;
+        console.log(`${actualAmount} USD equals ${sum.toFixed(4)} ${actualCurrency}`);
+    } else {
+        console.log(result);
+    }
+
 }
-
-controllAmountInput();
-
-if (!result) {
-    let sum = actualAmount * actualRate;
-    console.log(`${actualAmount} USD equals ${sum.toFixed(4)} ${actualCurrency}`);
-} else {
-    console.log(result);
-}
-
-
-
-
-
-

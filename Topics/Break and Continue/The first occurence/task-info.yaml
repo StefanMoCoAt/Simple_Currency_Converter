@@ -1,0 +1,15 @@
+type: code
+files:
+- name: main.js
+  visible: true
+  text: |-
+    function find5(numbers) {
+        // change it
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9381#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 02 Jul 2022 11:34:48 UTC
+record: -1

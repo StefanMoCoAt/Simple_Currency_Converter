@@ -25,69 +25,36 @@ console.log(showCurrency(currencies));
 
 const input = require('sync-input');
 
-let msgCanDo = `What do you want to convert?`;
+let converter = () => {
 
-console.log(msgCanDo);
-
-let errorMsgCurrency = `Unknown currency`;
-let errorMsgAmountLess = `The amount can not be less than 1`;
-let errorMsgAmountNumb = `The amount has to be a number`;
-let actualRateFrom = 0;
-let actualRateTo = 0;
-let actualCurrencyFrom = false;
-let actualCurrencyTo = false;
-let actualAmount = 0;
-let result = false;
+    let errorMsgCurrency = `Unknown currency`;
+    let errorMsgAmountLess = `The amount can not be less than 1`;
+    let errorMsgAmountNumb = `The amount has to be a number`;
+    let actualRateFrom = 0;
+    let actualRateTo = 0;
+    let actualCurrencyFrom = false;
+    let actualCurrencyTo = false;
+    let actualAmount = 0;
+    let result = false;
 
 //From ...
-let currencyInputFrom = input(`From: `);
+    let currencyInputFrom = input(`What do you want to convert?
+From: `);
 
-let controllCurrencyInputFrom = () => {
-    let temp = currencyInputFrom.toUpperCase().trim();
-
-    let found = () => {
-        for (const item of currencies) {
-            if (item.currency === temp) {
-                actualCurrencyFrom = item.currency;
-                actualRateFrom = item.rate;
-                found = true;
-                controllCurrencyInputFrom = true;
-                break;
-            } else {
-                found = false;
-                controllCurrencyInputFrom = false;
-            }
-        }
-    }
-
-    found();
-
-    if (!found) {
-        console.log(errorMsgCurrency);
-    }
-}
-
-controllCurrencyInputFrom();
-
-if (controllCurrencyInputFrom && !result) {
-
-    // To: ...
-    let currencyInputTo = input(`To: `);
-
-    let controllCurrencyInputTo = () => {
-        let temp = currencyInputTo.toUpperCase().trim();
+    let controllCurrencyInputFrom = () => {
+        let temp = currencyInputFrom.toUpperCase().trim();
 
         let found = () => {
             for (const item of currencies) {
                 if (item.currency === temp) {
-                    actualCurrencyTo = item.currency;
-                    actualRateTo = item.rate;
+                    actualCurrencyFrom = item.currency;
+                    actualRateFrom = item.rate;
                     found = true;
-                    controllCurrencyInputTo = true;
+                    controllCurrencyInputFrom = true;
                     break;
                 } else {
                     found = false;
-                    controllCurrencyInputTo = false;
+                    controllCurrencyInputFrom = false;
                 }
             }
         }
@@ -96,33 +63,94 @@ if (controllCurrencyInputFrom && !result) {
 
         if (!found) {
             console.log(errorMsgCurrency);
+            converter();
         }
     }
 
-    controllCurrencyInputTo();
+    controllCurrencyInputFrom();
 
-    if (controllCurrencyInputTo) {
+    if (controllCurrencyInputFrom && !result) {
 
-        let amountInput = Number(input(`Amount: `));
+        // To: ...
+        let currencyInputTo = input(`To: `);
 
-        const controllAmountInput = () => {
+        let controllCurrencyInputTo = () => {
+            let temp = currencyInputTo.toUpperCase().trim();
+
+            let found = () => {
+                for (const item of currencies) {
+                    if (item.currency === temp) {
+                        actualCurrencyTo = item.currency;
+                        actualRateTo = item.rate;
+                        found = true;
+                        controllCurrencyInputTo = true;
+                        break;
+                    } else {
+                        found = false;
+                        controllCurrencyInputTo = false;
+                    }
+                }
+            }
+
+            found();
+
+            if (!found) {
+                console.log(errorMsgCurrency);
+                converter();
+            }
+        }
+
+        controllCurrencyInputTo();
+
+        if (controllCurrencyInputTo) {
+
+            let amountInput = Number(input(`Amount: `));
+
             if (amountInput >= 1) {
                 actualAmount = amountInput;
             } else if (isNaN(amountInput)) {
                 result = errorMsgAmountNumb;
+                console.log(errorMsgAmountNumb);
+                converter();
             } else {
                 result = errorMsgAmountLess;
+                console.log(errorMsgAmountLess);
+                converter();
             }
-        }
 
-        controllAmountInput();
-
-        if (!result) {
-            let amountToUSD = actualAmount / actualRateFrom;
-            let sum = amountToUSD * actualRateTo
-            console.log(`Result: ${actualAmount} ${actualCurrencyFrom} equals ${sum.toFixed(4)} ${actualCurrencyTo}`);
-        } else {
-            console.log(result);
+            if (!result) {
+                let amountToUSD = actualAmount / actualRateFrom;
+                let sum = amountToUSD * actualRateTo
+                console.log(`Result: ${actualAmount} ${actualCurrencyFrom} equals ${sum.toFixed(4)} ${actualCurrencyTo}`);
+            } else {
+                console.log(result);
+            }
         }
     }
 }
+
+let exit = false;
+
+let msgCanDo = `What do you want to do?
+1-Convert currencies 2-Exit program`;
+
+do {
+
+    console.log(msgCanDo);
+
+    let menu = Number(input());
+
+    switch (menu) {
+        case 1:
+            converter();
+            break;
+        case 2:
+            console.log(`Have a nice day!`);
+            exit = true;
+            break;
+        default:
+            console.log(`Unknown input`)
+            break;
+    }
+} while (!exit);
+

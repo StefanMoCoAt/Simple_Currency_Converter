@@ -33,9 +33,10 @@ class CurrencyConverter(StageTest):
 1 USD equals  0.89 EUR
 1 USD equals  74.36 RUB
 1 USD equals  0.75 GBP
-What do you want to convert?
-From:"""
-        if message not in output.strip():
+What do you want to do?
+1-Convert currencies 2-Exit program
+"""
+        if message not in output:
             return CheckResult.wrong('Your output should be like in the example!')
         return CheckResult.correct()
 
@@ -44,6 +45,10 @@ From:"""
         main = TestedProgram()
         main.start()
         if main.is_waiting_input():
+            output = main.execute("1")
+            message = "What do you want to convert?\nFrom:"
+            if message not in output.strip():
+                return CheckResult.wrong('You should ask for the "From" currency input like in the example!')
             output = main.execute(from_currency)
             message = "To:"
             if message not in output.strip():
@@ -57,45 +62,47 @@ From:"""
                 return CheckResult.wrong('You should output the correct result as in the example!')
             return CheckResult.correct()
 
-        return CheckResult.wrong('You should ask for the "From" currency input!')
+        return CheckResult.wrong('You should give the user two options to choose from!')
 
     @dynamic_test()
     def test3(self):
         main = TestedProgram()
         main.start()
         if main.is_waiting_input():
+            main.execute("1")
             output = main.execute("TL")
             message = "Unknown currency"
             if message not in output.strip():
                 return CheckResult.wrong('You should output correct message if an unknown input occurs.')
-            elif not main.is_finished():
-                return CheckResult.wrong('The program should finish if an unknown input occurs.')
+            elif main.is_finished() or not main.is_waiting_input():
+                return CheckResult.wrong('Your program should resume and ask again after an unknown input!')
             return CheckResult.correct()
-        return CheckResult.wrong('You should ask for the "From" currency input!')
+        return CheckResult.wrong('You should give the user two options to choose from!')
 
     @dynamic_test()
     def test4(self):
         main = TestedProgram()
         main.start()
         if main.is_waiting_input():
+            main.execute("1")
             main.execute("USD")
             output = main.execute("This is a currency, believe me!")
             message = "Unknown currency"
             if message not in output.strip():
                 return CheckResult.wrong('You should output correct message if an unknown input occurs.')
-            elif not main.is_finished():
-                return CheckResult.wrong('The program should finish if an unknown input occurs.')
+            elif main.is_finished() or not main.is_waiting_input():
+                return CheckResult.wrong('Your program should resume and ask again after an unknown input!')
             return CheckResult.correct()
-        return CheckResult.wrong('You should ask for the "To" currency input!')
+        return CheckResult.wrong('You should give the user two options to choose from!')
 
     @dynamic_test(data=["-1", "a"])
     def test5(self, amount):
         main = TestedProgram()
         main.start()
         if main.is_waiting_input():
+            main.execute("1")
             main.execute("USD")
             main.execute("GBP")
-
             output = main.execute(amount)
             message = "The amount can not be less than 1"
             message2 = "The amount has to be a number"
@@ -103,17 +110,18 @@ From:"""
                 return CheckResult.wrong('You should output correct message if a negative amount is given.')
             elif amount == "a" and message2 not in output.strip():
                 return CheckResult.wrong('You should output correct message if a non-numeric amount is given.')
-            elif not main.is_finished():
-                return CheckResult.wrong('The program should finish if a negative or non-numeric input is given.')
+            elif  main.is_finished()  or not main.is_waiting_input():
+                return CheckResult.wrong('Your program should resume and ask again after an unknown input!')
             return CheckResult.correct()
 
-        return CheckResult.wrong('You should ask for the "To" currency input!')
+        return CheckResult.wrong('You should give the user two options to choose from!')
 
     @dynamic_test(data=["JpY", "jpy"])
     def test6(self, currency):
         main = TestedProgram()
         main.start()
         if main.is_waiting_input():
+            main.execute("1")
             output = main.execute(currency)
             message = "To:"
             if message not in output.strip():
@@ -128,7 +136,37 @@ From:"""
                 return CheckResult.wrong('You should output the correct result as in the example!')
             return CheckResult.correct()
 
-        return CheckResult.wrong('You should ask for the "From" currency input!')
+        return CheckResult.wrong('You should give the user two options to choose from!')
+
+    @dynamic_test()
+    def test7(self):
+        main = TestedProgram()
+        main.start()
+        if main.is_waiting_input():
+            output = main.execute("2")
+            message = "Have a nice day!"
+            if message not in output.strip():
+                return CheckResult.wrong('You should output a goodbye message like in the example!')
+            elif not main.is_finished():
+                return CheckResult.wrong('Your program should finish after exiting!')
+            return CheckResult.correct()
+
+        return CheckResult.wrong('You should give the user two options to choose from!')
+
+    @dynamic_test(data=["3", "a"])
+    def test8(self, unknown_input):
+        main = TestedProgram()
+        main.start()
+        if main.is_waiting_input():
+            output = main.execute(unknown_input)
+            message = "Unknown input"
+            if message not in output.strip():
+                return CheckResult.wrong('You should output a message like in the example if an unknown input occurs!')
+            elif main.is_finished() or not main.is_waiting_input():
+                return CheckResult.wrong('Your program should resume and ask again after an unknown input!')
+            return CheckResult.correct()
+
+        return CheckResult.wrong('You should give the user two options to choose from!')
 
 
 if __name__ == '__main__':
